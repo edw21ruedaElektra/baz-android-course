@@ -1,12 +1,10 @@
 package com.example.wizeline.data
 
+import com.example.wizeline.data.service.BaseService
+import com.example.wizeline.utils.Constants
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
-object Constants {
-    const val BASE_URL = "https://api.bitso.com/v3/"
-}
 
 var retrofit = Retrofit.Builder()
     .baseUrl(Constants.BASE_URL)
@@ -14,4 +12,4 @@ var retrofit = Retrofit.Builder()
     .client(OkHttpClient())
     .build()
 
-//val service = retrofit.create(Bitso)
+val service = retrofit.create(BaseService::class.java)

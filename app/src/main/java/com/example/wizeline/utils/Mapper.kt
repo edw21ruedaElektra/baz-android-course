@@ -1,8 +1,6 @@
 package com.example.wizeline.utils
 
-import com.example.wizeline.data.datasource.models.AvailableBooksResponse
-import com.example.wizeline.data.datasource.models.Book
-import com.example.wizeline.data.datasource.models.BookInfoEntity
+import com.example.wizeline.data.datasource.models.*
 
 fun BookInfoEntity.toBook() = Book(
     id = this.book.orEmpty()
@@ -14,4 +12,11 @@ fun AvailableBooksResponse.toBooks() : List<BookInfoEntity>{
         books.add(it)
     }
     return books
+}
+
+fun BidsAndAsksResponse.toBidsAndAsks(): BidsAndAsksList {
+    return BidsAndAsksList(
+        payload.asks,
+        payload.bids
+    )
 }

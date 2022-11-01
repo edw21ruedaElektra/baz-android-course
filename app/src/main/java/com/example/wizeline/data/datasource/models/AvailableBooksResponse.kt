@@ -11,15 +11,15 @@ data class AvailableBooksResponse(
 data class BookInfoEntity(
     val book : String?,
     @SerializedName("minimum_amount")
-    val miniumAmount : String,
+    val minimumAmount : String,
     @SerializedName("maximum_amount")
-    val maxiumAmount : String,
+    val maximumAmount : String,
     @SerializedName("minimum_price")
-    val miniumPrice : String,
+    val minimumPrice : String,
     @SerializedName("maximum_price")
     val maximumPrice : String,
     @SerializedName("minimum_value")
-    val miniumValue : String,
+    val minimumValue : String,
     @SerializedName("maximum_value")
     val maximumValue : String
 )

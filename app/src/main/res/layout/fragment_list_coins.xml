@@ -18,7 +18,7 @@
             android:textColor="@color/black"
             android:textSize="@dimen/margin32dp"
             android:textStyle="bold"
-            android:text="@string/list_coints"/>
+            android:text="@string/str_list_coints"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_list_coins"

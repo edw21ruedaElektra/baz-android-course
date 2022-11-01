@@ -1,19 +1,12 @@
 package com.example.wizeline.ui.adapters
 
-import android.annotation.SuppressLint
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.util.TypedValue
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wizeline.R
-import com.example.wizeline.data.datasource.models.Book
 import com.example.wizeline.data.datasource.models.BookInfoEntity
 import com.example.wizeline.databinding.ItemCurrencyBinding
 

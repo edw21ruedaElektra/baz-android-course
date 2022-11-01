@@ -5,4 +5,9 @@
     <string name="str_list_coints">Listado de monedas</string>
     <string name="str_asks">ASKS</string>
     <string name="str_bids">BIDS</string>
+    <string name="minimum_price_text">El precio mínimo es: %s</string>
+    <string name="maximum_price_text">El precio máximo es: %s</string>
+    <string name="book_text">Book: %s</string>
+    <string name="price_text">Price: %s</string>
+    <string name="amount_text">Amount: %s</string>
 </resources>

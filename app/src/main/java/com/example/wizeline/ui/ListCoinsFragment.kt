@@ -5,27 +5,31 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.wizeline.data.datasource.RemoteDataSource
+import com.example.wizeline.R
 import com.example.wizeline.data.datasource.RemoteDataSourceImpl
-import com.example.wizeline.data.repository.CurrencyRepository
 import com.example.wizeline.data.repository.CurrencyRepositoryImpl
 import com.example.wizeline.data.service.service
 import com.example.wizeline.databinding.FragmentListCoinsBinding
 import com.example.wizeline.domain.FilterCurrenciesUseCase
-import com.example.wizeline.domain.GetBidsAndAsksUseCase
 import com.example.wizeline.ui.adapters.ListCoinsAdapter
 
 class ListCoinsFragment : Fragment() {
-    private val bitsoVm by activityViewModels<BitsoViewModel>{
+    private val bitsoVm by navGraphViewModels<BitsoViewModel>(R.id.nav_graph){
         BitsoViewModelFactory(
             CurrencyRepositoryImpl(
                 RemoteDataSourceImpl(
                     service
+                )
+            ),
+            FilterCurrenciesUseCase(
+                CurrencyRepositoryImpl(
+                    RemoteDataSourceImpl(
+                        service
+                    )
                 )
             )
         )
@@ -33,12 +37,12 @@ class ListCoinsFragment : Fragment() {
 
     private lateinit var bindingView: FragmentListCoinsBinding
     private var coinsAdapter = ListCoinsAdapter{
-        bitsoVm.goToDetail(this,it)
+        bitsoVm.saveBookSelected(it)
+        findNavController().navigate(R.id.action_listCoinsFragment_to_detailsCoinFragment)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        bindingView = FragmentListCoinsBinding.inflate(inflater, container, false).also {
-        }
+        bindingView = FragmentListCoinsBinding.inflate(inflater, container, false)
         return bindingView.root
     }
 
@@ -52,11 +56,7 @@ class ListCoinsFragment : Fragment() {
             itemAnimator = DefaultItemAnimator()
         }
         bitsoVm.availableBooksL.observe(viewLifecycleOwner) { availableBooks ->
-            if (availableBooks.isEmpty())
-                println("lista vacia")
-            else {
                 coinsAdapter.submitList(availableBooks)
-            }
         }
 
     }

@@ -1,23 +1,19 @@
 package com.example.wizeline.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.wizeline.data.datasource.RemoteDataSourceImpl
-import com.example.wizeline.data.repository.CurrencyRepositoryImpl
-import com.example.wizeline.data.service.service
+import com.example.wizeline.R
 import com.example.wizeline.databinding.FragmentDetailsCoinBinding
 import com.example.wizeline.ui.adapters.ListAsksBidsAdapter
 
 class DetailsCoinFragment : Fragment() {
-    private val bitsoVm by activityViewModels<BitsoViewModel>()
+    private val bitsoVm by navGraphViewModels<BitsoViewModel>(R.id.nav_graph)
     private lateinit var bindingView: FragmentDetailsCoinBinding
     private var bidsAdapter = ListAsksBidsAdapter()
     private var asksAdapter = ListAsksBidsAdapter()
@@ -27,37 +23,28 @@ class DetailsCoinFragment : Fragment() {
         return bindingView.root
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bind()
         bitsoVm.bidsAndAsks.observe(viewLifecycleOwner) { asksAndBids ->
-            if (asksAndBids.asks.isEmpty())
-                println("lista vacia asks")
-            else {
-                asksAdapter.submitList(asksAndBids.asks)
-            }
-            if (asksAndBids.bids.isEmpty())
-                println("lista vacia bids")
-            else {
-                bidsAdapter.submitList(asksAndBids.bids)
-            }
+            asksAdapter.submitList(asksAndBids.asks)
+            bidsAdapter.submitList(asksAndBids.bids)
         }
 
         bitsoVm.bookSelected.observe(viewLifecycleOwner) { bookSelected ->
-            if (bookSelected != null) {
+            bookSelected?.let {
                 bindingView.apply {
                     tvTitle.text = bookSelected.book
-                    tvMinimumPrice.text = "El precio mínimo es: ${bookSelected.minimumPrice}"
-                    tvMaximumPrice.text = "El precio máximo es: ${bookSelected.maximumPrice}"
+                    tvMinimumPrice.text = resources.getString(R.string.minimum_price_text,bookSelected.minimumPrice)
+                    tvMaximumPrice.text = resources.getString(R.string.maximum_price_text,bookSelected.maximumPrice)
                 }
-                bitsoVm.getBidsAndAsks(bookSelected.book!!)
+                bookSelected.book?.let {
+                    bitsoVm.getBidsAndAsks(it)
+                }
             }
         }
 
     }
-
-    @SuppressLint("SetTextI18n")
     private fun bind(){
         bindingView.apply {
             rvListAsks.apply {

@@ -1,6 +1,5 @@
 package com.example.wizeline.domain
 
-import com.example.wizeline.data.datasource.models.Book
 import com.example.wizeline.data.datasource.models.BookInfoEntity
 import com.example.wizeline.data.repository.CurrencyRepository
 import com.example.wizeline.utils.orFalse

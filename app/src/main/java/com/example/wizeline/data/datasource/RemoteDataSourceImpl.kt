@@ -10,7 +10,6 @@ class RemoteDataSourceImpl(
 
     override suspend fun getAvailableBooks(): AvailableBooksResponse {
         return service.availableBooks()
-
     }
 
     override suspend fun getAsksAndBids(book: String): BidsAndAsksResponse {

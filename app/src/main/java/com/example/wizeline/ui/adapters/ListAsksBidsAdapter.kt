@@ -1,15 +1,16 @@
 package com.example.wizeline.ui.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.wizeline.BadApplication
+import com.example.wizeline.R
 import com.example.wizeline.data.datasource.models.BidsAndAsks
 import com.example.wizeline.databinding.ItemAsksBidsBinding
 
-class ListAsksBidsAdapter() :
+class ListAsksBidsAdapter :
     ListAdapter<BidsAndAsks, ListAsksBidsAdapter.ViewHolder>(compare) {
 
     companion object{
@@ -33,11 +34,10 @@ class ListAsksBidsAdapter() :
 
     inner class ViewHolder(private val itemBinding: ItemAsksBidsBinding) : RecyclerView.ViewHolder(itemBinding.root) {
 
-        @SuppressLint("SetTextI18n")
         fun bindItem(item: BidsAndAsks) = with(itemBinding) {
-            tvBook.text = "Book: ${item.book}"
-            tvPrice.text = "Price: ${item.price}"
-            tvAmount.text = "Amount: ${item.amount}"
+            tvBook.text = BadApplication.getAppContext().resources.getString(R.string.book_text,item.book)
+            tvPrice.text = BadApplication.getAppContext().resources.getString(R.string.price_text,item.price)
+            tvAmount.text = BadApplication.getAppContext().resources.getString(R.string.amount_text,item.amount)
         }
     }
 

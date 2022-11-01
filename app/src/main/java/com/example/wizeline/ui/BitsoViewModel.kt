@@ -1,24 +1,18 @@
 package com.example.wizeline.ui
 
-import android.app.Activity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
-import com.example.wizeline.BadApplication
-import com.example.wizeline.R
 import com.example.wizeline.data.datasource.models.Book
 import com.example.wizeline.data.datasource.models.BookInfoEntity
 import com.example.wizeline.domain.FilterCurrenciesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import androidx.navigation.fragment.findNavController
-import com.example.wizeline.data.datasource.models.BidsAndAsks
 import com.example.wizeline.data.datasource.models.BidsAndAsksList
 import com.example.wizeline.data.repository.CurrencyRepository
-import com.example.wizeline.domain.GetBidsAndAsksUseCase
 
 class BitsoViewModel(
-    private val repository: CurrencyRepository
+    private val repository: CurrencyRepository,
+    private val filterCurrenciesUseCase: FilterCurrenciesUseCase
     ) : ViewModel(){
 
     private val _availableBooks = MutableStateFlow(arrayListOf<Book>())
@@ -32,7 +26,7 @@ class BitsoViewModel(
 
     fun getAvailableBooks() {
         viewModelScope.launch {
-            val books = repository.fetchAvailableBooks()
+            val books = filterCurrenciesUseCase.invoke()
             books.forEach {
             }
             _availableBooksL.value = books
@@ -40,7 +34,7 @@ class BitsoViewModel(
     }
     fun getBidsAndAsks(book:String) {
         viewModelScope.launch {
-            val books = repository.getAsksAndBids("btc_mxn")
+            val books = repository.getAsksAndBids(book)
             books.asks.forEach {
                 println("los asks son $it")
             }
@@ -51,15 +45,16 @@ class BitsoViewModel(
         }
     }
 
-    fun goToDetail(fragment: Fragment,item : BookInfoEntity){
+    fun saveBookSelected(item : BookInfoEntity){
         _bookSelected.value = item
-        fragment.findNavController().navigate(R.id.action_listCoinsFragment_to_detailsCoinFragment)
     }
 }
 class BitsoViewModelFactory(
-    private val repository: CurrencyRepository
+    private val repository: CurrencyRepository,
+    private val filterCurrenciesUseCase: FilterCurrenciesUseCase
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return modelClass.getConstructor(CurrencyRepository::class.java).newInstance(repository)
+        return modelClass.getConstructor(CurrencyRepository::class.java,FilterCurrenciesUseCase::class.java
+        ).newInstance(repository,filterCurrenciesUseCase)
     }
 }

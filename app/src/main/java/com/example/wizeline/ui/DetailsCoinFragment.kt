@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wizeline.R
 import com.example.wizeline.databinding.FragmentDetailsCoinBinding
 import com.example.wizeline.ui.adapters.ListAsksBidsAdapter
+import com.example.wizeline.utils.formatMXN
 
 class DetailsCoinFragment : Fragment() {
     private val bitsoVm by navGraphViewModels<BitsoViewModel>(R.id.nav_graph)
@@ -35,11 +36,19 @@ class DetailsCoinFragment : Fragment() {
             bookSelected?.let {
                 bindingView.apply {
                     tvTitle.text = bookSelected.book
-                    tvMinimumPrice.text = resources.getString(R.string.minimum_price_text,bookSelected.minimumPrice)
-                    tvMaximumPrice.text = resources.getString(R.string.maximum_price_text,bookSelected.maximumPrice)
+                    tvMinimumPrice.text = resources.getString(R.string.minimum_price_text,bookSelected.minimumPrice.formatMXN())
+                    tvMaximumPrice.text = resources.getString(R.string.maximum_price_text,bookSelected.maximumPrice.formatMXN())
                 }
                 bookSelected.book?.let {
                     bitsoVm.getBidsAndAsks(it)
+                    bitsoVm.getTicker(it)
+                }
+            }
+        }
+        bitsoVm.ticker.observe(viewLifecycleOwner) { bookSelected ->
+            bookSelected?.let {
+                bindingView.apply {
+                    tvLastPrice.text = resources.getString(R.string.last_price_text,it.last.formatMXN())
                 }
             }
         }

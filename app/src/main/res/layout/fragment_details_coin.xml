@@ -40,6 +40,14 @@
             android:textSize="@dimen/margin16dp"
             tools:text="El precio maximo es $300"/>
         <TextView
+            android:id="@+id/tv_last_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:padding="@dimen/margin16dp"
+            android:textSize="@dimen/margin16dp"
+            tools:text="El último precio es $300"/>
+        <TextView
             android:id="@+id/tv_asks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -5,4 +5,5 @@ import com.example.wizeline.data.datasource.models.*
 interface CurrencyRepository {
     suspend fun fetchAvailableBooks(): List<BookInfoEntity>
     suspend fun getAsksAndBids(book:String): BidsAndAsksList
+    suspend fun getTicker(book:String): TickerEntity
 }

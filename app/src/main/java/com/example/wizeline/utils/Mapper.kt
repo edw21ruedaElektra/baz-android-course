@@ -20,3 +20,7 @@ fun BidsAndAsksResponse.toBidsAndAsks(): BidsAndAsksList {
         payload.bids
     )
 }
+
+fun TickerResponse.toTickerEntity(): TickerEntity {
+    return payload
+}

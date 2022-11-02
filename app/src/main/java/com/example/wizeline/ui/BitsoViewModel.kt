@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import com.example.wizeline.data.datasource.models.BidsAndAsksList
+import com.example.wizeline.data.datasource.models.TickerEntity
 import com.example.wizeline.data.repository.CurrencyRepository
 
 class BitsoViewModel(
@@ -21,6 +22,8 @@ class BitsoViewModel(
     var availableBooksL: LiveData<List<BookInfoEntity>> = _availableBooksL
     var _bidsAndAsks = MutableLiveData<BidsAndAsksList>()
     var bidsAndAsks: LiveData<BidsAndAsksList> = _bidsAndAsks
+    var _ticker = MutableLiveData<TickerEntity>()
+    var ticker: LiveData<TickerEntity> = _ticker
     var _bookSelected = MutableLiveData<BookInfoEntity>()
     var bookSelected: LiveData<BookInfoEntity> = _bookSelected
 
@@ -35,13 +38,14 @@ class BitsoViewModel(
     fun getBidsAndAsks(book:String) {
         viewModelScope.launch {
             val books = repository.getAsksAndBids(book)
-            books.asks.forEach {
-                println("los asks son $it")
-            }
-            books.bids.forEach {
-                println("los bids son $it")
-            }
             _bidsAndAsks.value = books
+        }
+    }
+
+    fun getTicker(book: String){
+        viewModelScope.launch {
+            val bookInfo = repository.getTicker(book)
+            _ticker.value = bookInfo
         }
     }
 

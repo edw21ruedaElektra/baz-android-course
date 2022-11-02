@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.wizeline.BadApplication
+import com.example.wizeline.BitsoApplication
 import com.example.wizeline.R
 import com.example.wizeline.data.datasource.models.BidsAndAsks
 import com.example.wizeline.databinding.ItemAsksBidsBinding
@@ -35,9 +35,9 @@ class ListAsksBidsAdapter :
     inner class ViewHolder(private val itemBinding: ItemAsksBidsBinding) : RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bindItem(item: BidsAndAsks) = with(itemBinding) {
-            tvBook.text = BadApplication.getAppContext().resources.getString(R.string.book_text,item.book)
-            tvPrice.text = BadApplication.getAppContext().resources.getString(R.string.price_text,item.price)
-            tvAmount.text = BadApplication.getAppContext().resources.getString(R.string.amount_text,item.amount)
+            tvBook.text = root.context.resources.getString(R.string.book_text,item.book)
+            tvPrice.text = root.context.resources.getString(R.string.price_text,item.price)
+            tvAmount.text = root.context.resources.getString(R.string.amount_text,item.amount)
         }
     }
 

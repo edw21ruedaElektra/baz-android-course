@@ -79,8 +79,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:2.5.1"
 
     //NAVIGATION
-    implementation("androidx.navigation:navigation-fragment:2.5.2")
-    implementation("androidx.navigation:navigation-ui:2.5.2")
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.2")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.2")
     // Feature module Support

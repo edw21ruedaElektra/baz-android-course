@@ -16,7 +16,7 @@ class BitsoViewModel(
     private val filterCurrenciesUseCase: FilterCurrenciesUseCase
     ) : ViewModel(){
 
-    private val _availableBooks = MutableStateFlow(arrayListOf<Book>())
+    private val _availableBooks = MutableStateFlow(emptyList<Book>())
     val availableBooks = _availableBooks.asStateFlow()
     var _availableBooksL = MutableLiveData<List<BookInfoEntity>>()
     var availableBooksL: LiveData<List<BookInfoEntity>> = _availableBooksL

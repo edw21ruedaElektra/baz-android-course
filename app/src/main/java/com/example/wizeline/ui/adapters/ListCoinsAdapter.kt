@@ -36,7 +36,7 @@ class ListCoinsAdapter(private val action: (item: BookInfoEntity) -> Unit) :
 
         fun bindItem(item: BookInfoEntity) = with(itemBinding) {
             tvItem.text = item.book
-            setImageCoin(ivCurrency, item.book!!)
+            item.book?.let { setImageCoin(ivCurrency, it) }
             root.setOnClickListener {
                 action(item)
             }
@@ -55,6 +55,7 @@ class ListCoinsAdapter(private val action: (item: BookInfoEntity) -> Unit) :
             "mana_mxn" -> itemImage.setImageResource(R.drawable.mana_coin)
             "bat_mxn" -> itemImage.setImageResource(R.drawable.bat_coin)
             "dai_mxn" -> itemImage.setImageResource(R.drawable.dai_coin)
+            else -> itemImage.setImageResource(R.drawable.coin_generic)
         }
 
     }

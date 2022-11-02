@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.DetailsCoinFragment">
+    <data>
+
+    </data>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:padding="@dimen/margin16dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/margin32dp"
+            android:text="@string/hello_blank_fragment"
+            tools:text="BTC_MXN"/>
+        <TextView
+            android:id="@+id/tv_minimum_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:padding="@dimen/margin16dp"
+            android:textSize="@dimen/margin16dp"
+            tools:text="El precio minimo es $300"/>
+        <TextView
+            android:id="@+id/tv_maximum_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:padding="@dimen/margin16dp"
+            android:textSize="@dimen/margin16dp"
+            tools:text="El precio maximo es $300"/>
+        <TextView
+            android:id="@+id/tv_last_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:padding="@dimen/margin16dp"
+            android:textSize="@dimen/margin16dp"
+            tools:text="El último precio es $300"/>
+        <TextView
+            android:id="@+id/tv_asks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:padding="@dimen/margin16dp"
+            android:textSize="@dimen/margin16dp"
+            android:text="@string/str_asks"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_list_asks"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin240dp"
+            android:layout_marginTop="@dimen/margin8dp"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_asks_bids" />
+        <TextView
+            android:id="@+id/tv_bids"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:padding="@dimen/margin16dp"
+            android:textSize="@dimen/margin16dp"
+            android:text="@string/str_bids"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_list_bids"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin240dp"
+            android:layout_marginTop="@dimen/margin8dp"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_asks_bids" />
+
+
+    </LinearLayout>
+</ScrollView>
+</layout>

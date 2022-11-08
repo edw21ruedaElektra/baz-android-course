@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.wizeline.BitsoApplication
 import com.example.wizeline.R
 import com.example.wizeline.data.datasource.models.BidsAndAsks
 import com.example.wizeline.databinding.ItemAsksBidsBinding

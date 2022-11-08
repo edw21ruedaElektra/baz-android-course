@@ -7,10 +7,11 @@ import com.example.wizeline.data.datasource.models.TickerEntity
 import com.example.wizeline.utils.toBidsAndAsks
 import com.example.wizeline.utils.toBooks
 import com.example.wizeline.utils.toTickerEntity
+import javax.inject.Inject
 
-class CurrencyRepositoryImpl (
+class CurrencyRepositoryImpl  @Inject constructor(
     private val dataSource: RemoteDataSource
-        ) : CurrencyRepository{
+    ): CurrencyRepository{
     override suspend fun fetchAvailableBooks(): List<BookInfoEntity> {
         return dataSource.getAvailableBooks().toBooks()
     }

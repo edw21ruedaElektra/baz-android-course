@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -16,24 +18,11 @@ import com.example.wizeline.data.service.service
 import com.example.wizeline.databinding.FragmentListCoinsBinding
 import com.example.wizeline.domain.FilterCurrenciesUseCase
 import com.example.wizeline.ui.adapters.ListCoinsAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ListCoinsFragment : Fragment() {
-    private val bitsoVm by navGraphViewModels<BitsoViewModel>(R.id.nav_graph){
-        BitsoViewModelFactory(
-            CurrencyRepositoryImpl(
-                RemoteDataSourceImpl(
-                    service
-                )
-            ),
-            FilterCurrenciesUseCase(
-                CurrencyRepositoryImpl(
-                    RemoteDataSourceImpl(
-                        service
-                    )
-                )
-            )
-        )
-    }
+    private val bitsoVm:BitsoViewModel by activityViewModels()
 
     private lateinit var bindingView: FragmentListCoinsBinding
     private var coinsAdapter = ListCoinsAdapter{

@@ -6,7 +6,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.wizeline.data.datasource.models.BookInfoEntity
 import com.example.wizeline.database.models.BookEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AvailableBooksDao {

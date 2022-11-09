@@ -9,7 +9,6 @@ import com.example.wizeline.database.models.BookEntity
 import com.example.wizeline.utils.toBidsAndAsks
 import com.example.wizeline.utils.toBooks
 import com.example.wizeline.utils.toTickerEntity
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class CurrencyRepositoryImpl  @Inject constructor(

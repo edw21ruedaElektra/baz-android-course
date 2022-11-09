@@ -13,8 +13,6 @@ import com.example.wizeline.data.repository.CurrencyRepository
 import com.example.wizeline.database.models.BookEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 @HiltViewModel
@@ -66,10 +64,6 @@ class BitsoViewModel @Inject constructor(
             _ticker.postValue(bookInfo)
         }
     }
-    fun check(){
-        println("el book es ${bookSelected.value}")
-    }
-
     fun saveBookSelected(item : BookInfoEntity){
         _bookSelected.value = item
         println("el book es ${bookSelected.value}")

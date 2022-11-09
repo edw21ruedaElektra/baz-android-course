@@ -5,22 +5,23 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.wizeline.data.datasource.models.BookInfoEntity
+import com.example.wizeline.database.models.BookEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AvailableBooksDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertBook(characterEntity: BookInfoEntity)
+    suspend fun insertBook(booksEntity: BookEntity)
 
     @Insert
-    suspend fun insertBook(characterEntity: List<BookInfoEntity>)
+    suspend fun insertBook(booksEntity: List<BookEntity>)
 
     @Query(
         """
             SELECT * FROM books
         """
     )
-    fun getBooks(): Flow<List<BookInfoEntity>>
+    fun getBooks(): List<BookInfoEntity>
 
 }

@@ -9,7 +9,7 @@ data class AvailableBooksResponse(
 )
 
 data class BookInfoEntity(
-    val book : String?,
+    val book : String,
     @SerializedName("minimum_amount")
     val minimumAmount : String,
     @SerializedName("maximum_amount")

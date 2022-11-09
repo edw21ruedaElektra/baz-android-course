@@ -10,8 +10,11 @@ import kotlinx.coroutines.launch
 import com.example.wizeline.data.datasource.models.BidsAndAsksList
 import com.example.wizeline.data.datasource.models.TickerEntity
 import com.example.wizeline.data.repository.CurrencyRepository
+import com.example.wizeline.database.models.BookEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,7 +37,20 @@ class BitsoViewModel @Inject constructor(
     fun getAvailableBooks() {
         viewModelScope.launch(Dispatchers.IO) {
             val books = filterCurrenciesUseCase.invoke()
-            _availableBooksL.postValue(books)
+            val entities = books.map { entity ->
+                BookEntity(
+                    book = entity.book,
+                    minimumAmount = entity.minimumAmount,
+                    minimumPrice = entity.minimumPrice,
+                    minimumValue = entity.minimumValue,
+                    maximumAmount = entity.maximumAmount,
+                    maximumPrice = entity.maximumPrice,
+                    maximumValue = entity.maximumValue
+                )
+            }
+            repository.insertBooks(entities)
+            val resultDB = repository.fetchAvailableBooksFlow()
+            _availableBooksL.postValue(resultDB)
         }
     }
     fun getBidsAndAsks(book:String) {

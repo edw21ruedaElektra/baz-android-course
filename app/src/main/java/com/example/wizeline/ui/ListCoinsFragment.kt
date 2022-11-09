@@ -6,17 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wizeline.R
-import com.example.wizeline.data.datasource.RemoteDataSourceImpl
-import com.example.wizeline.data.repository.CurrencyRepositoryImpl
-import com.example.wizeline.data.service.service
 import com.example.wizeline.databinding.FragmentListCoinsBinding
-import com.example.wizeline.domain.FilterCurrenciesUseCase
 import com.example.wizeline.ui.adapters.ListCoinsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 

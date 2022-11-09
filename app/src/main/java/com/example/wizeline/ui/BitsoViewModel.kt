@@ -10,8 +10,13 @@ import kotlinx.coroutines.launch
 import com.example.wizeline.data.datasource.models.BidsAndAsksList
 import com.example.wizeline.data.datasource.models.TickerEntity
 import com.example.wizeline.data.repository.CurrencyRepository
+import com.example.wizeline.database.models.BookEntity
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import javax.inject.Inject
 
-class BitsoViewModel(
+@HiltViewModel
+class BitsoViewModel @Inject constructor(
     private val repository: CurrencyRepository,
     private val filterCurrenciesUseCase: FilterCurrenciesUseCase
     ) : ViewModel(){
@@ -28,37 +33,39 @@ class BitsoViewModel(
     var bookSelected: LiveData<BookInfoEntity> = _bookSelected
 
     fun getAvailableBooks() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val books = filterCurrenciesUseCase.invoke()
-            books.forEach {
+            val entities = books.map { entity ->
+                BookEntity(
+                    book = entity.book,
+                    minimumAmount = entity.minimumAmount,
+                    minimumPrice = entity.minimumPrice,
+                    minimumValue = entity.minimumValue,
+                    maximumAmount = entity.maximumAmount,
+                    maximumPrice = entity.maximumPrice,
+                    maximumValue = entity.maximumValue
+                )
             }
-            _availableBooksL.value = books
+            repository.insertBooks(entities)
+            val resultDB = repository.fetchAvailableBooksFlow()
+            _availableBooksL.postValue(resultDB)
         }
     }
     fun getBidsAndAsks(book:String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val books = repository.getAsksAndBids(book)
-            _bidsAndAsks.value = books
+            _bidsAndAsks.postValue(books)
         }
     }
 
     fun getTicker(book: String){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val bookInfo = repository.getTicker(book)
-            _ticker.value = bookInfo
+            _ticker.postValue(bookInfo)
         }
     }
-
     fun saveBookSelected(item : BookInfoEntity){
         _bookSelected.value = item
-    }
-}
-class BitsoViewModelFactory(
-    private val repository: CurrencyRepository,
-    private val filterCurrenciesUseCase: FilterCurrenciesUseCase
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return modelClass.getConstructor(CurrencyRepository::class.java,FilterCurrenciesUseCase::class.java
-        ).newInstance(repository,filterCurrenciesUseCase)
+        println("el book es ${bookSelected.value}")
     }
 }

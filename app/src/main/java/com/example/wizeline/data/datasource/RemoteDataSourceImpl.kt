@@ -4,8 +4,9 @@ import com.example.wizeline.data.datasource.models.AvailableBooksResponse
 import com.example.wizeline.data.datasource.models.BidsAndAsksResponse
 import com.example.wizeline.data.datasource.models.TickerResponse
 import com.example.wizeline.data.service.BaseService
+import javax.inject.Inject
 
-class RemoteDataSourceImpl(
+class RemoteDataSourceImpl@Inject constructor(
     private val service: BaseService
     ): RemoteDataSource {
 

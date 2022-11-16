@@ -4,13 +4,14 @@ import com.example.wizeline.data.datasource.models.BookInfoEntity
 import com.example.wizeline.data.repository.CurrencyRepository
 import com.example.wizeline.utils.Constants.CRYPTO_MXN_SUFFIX_VALUE
 import com.example.wizeline.utils.orFalse
+import javax.inject.Inject
 
-class FilterCurrenciesUseCase (
+class FilterCurrenciesUseCase @Inject constructor(
         private val currencyRepository : CurrencyRepository
 ){
         suspend operator fun invoke():List<BookInfoEntity>{
                 return currencyRepository.fetchAvailableBooks().filter {
-                        it.book?.contains(CRYPTO_MXN_SUFFIX_VALUE).orFalse()
+                        it.book.contains(CRYPTO_MXN_SUFFIX_VALUE).orFalse()
                 }
         }
 }

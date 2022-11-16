@@ -5,16 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.navGraphViewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wizeline.R
 import com.example.wizeline.databinding.FragmentDetailsCoinBinding
 import com.example.wizeline.ui.adapters.ListAsksBidsAdapter
 import com.example.wizeline.utils.formatMXN
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailsCoinFragment : Fragment() {
-    private val bitsoVm by navGraphViewModels<BitsoViewModel>(R.id.nav_graph)
+    private val bitsoVm:BitsoViewModel by activityViewModels()
     private lateinit var bindingView: FragmentDetailsCoinBinding
     private var bidsAdapter = ListAsksBidsAdapter()
     private var asksAdapter = ListAsksBidsAdapter()
@@ -27,6 +29,7 @@ class DetailsCoinFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bind()
+
         bitsoVm.bidsAndAsks.observe(viewLifecycleOwner) { asksAndBids ->
             asksAdapter.submitList(asksAndBids.asks)
             bidsAdapter.submitList(asksAndBids.bids)
@@ -39,9 +42,9 @@ class DetailsCoinFragment : Fragment() {
                     tvMinimumPrice.text = resources.getString(R.string.minimum_price_text,bookSelected.minimumPrice.formatMXN())
                     tvMaximumPrice.text = resources.getString(R.string.maximum_price_text,bookSelected.maximumPrice.formatMXN())
                 }
-                bookSelected.book?.let {
+                bookSelected.book.let {
                     bitsoVm.getBidsAndAsks(it)
-                    bitsoVm.getTicker(it)
+                    bitsoVm.getTickerRX(it)
                 }
             }
         }

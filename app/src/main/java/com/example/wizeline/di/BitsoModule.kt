@@ -1,9 +1,13 @@
 package com.example.wizeline.di
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.util.Log
 import androidx.room.Room
 import com.example.wizeline.data.datasource.RemoteDataSource
 import com.example.wizeline.data.datasource.RemoteDataSourceImpl
+import com.example.wizeline.data.datasource.models.WifiConnected
 import com.example.wizeline.data.repository.CurrencyRepository
 import com.example.wizeline.data.repository.CurrencyRepositoryImpl
 import com.example.wizeline.data.service.BaseService
@@ -61,6 +65,29 @@ abstract class BitsoModule {
 
         @Provides
         fun providesBooksDao(database: WizelineDatabase): AvailableBooksDao = database.booksDao()
+
+        @Provides
+        fun isOnline(@ApplicationContext context: Context): WifiConnected {
+            val connectivityManager =
+                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            if (connectivityManager != null) {
+                val capabilities =
+                    connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+                if (capabilities != null) {
+                    if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                        Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                        return WifiConnected(true)
+                    } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                        Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
+                        return WifiConnected(true)
+                    } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                        Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                        return WifiConnected(true)
+                    }
+                }
+            }
+            return WifiConnected(false)
+        }
     }
 
 }

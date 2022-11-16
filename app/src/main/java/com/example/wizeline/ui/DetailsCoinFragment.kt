@@ -42,9 +42,9 @@ class DetailsCoinFragment : Fragment() {
                     tvMinimumPrice.text = resources.getString(R.string.minimum_price_text,bookSelected.minimumPrice.formatMXN())
                     tvMaximumPrice.text = resources.getString(R.string.maximum_price_text,bookSelected.maximumPrice.formatMXN())
                 }
-                bookSelected.book?.let {
+                bookSelected.book.let {
                     bitsoVm.getBidsAndAsks(it)
-                    bitsoVm.getTicker(it)
+                    bitsoVm.getTickerRX(it)
                 }
             }
         }

@@ -31,8 +31,6 @@ class ListCoinsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        bitsoVm.getAvailableBooks()
         bindingView.rvListCoins.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = coinsAdapter

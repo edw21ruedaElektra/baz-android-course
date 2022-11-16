@@ -11,7 +11,7 @@ class FilterCurrenciesUseCase @Inject constructor(
 ){
         suspend operator fun invoke():List<BookInfoEntity>{
                 return currencyRepository.fetchAvailableBooks().filter {
-                        it.book?.contains(CRYPTO_MXN_SUFFIX_VALUE).orFalse()
+                        it.book.contains(CRYPTO_MXN_SUFFIX_VALUE).orFalse()
                 }
         }
 }

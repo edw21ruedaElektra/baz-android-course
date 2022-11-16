@@ -12,6 +12,8 @@ import com.example.wizeline.data.datasource.models.TickerEntity
 import com.example.wizeline.data.repository.CurrencyRepository
 import com.example.wizeline.database.models.BookEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
@@ -23,32 +25,22 @@ class BitsoViewModel @Inject constructor(
 
     private val _availableBooks = MutableStateFlow(emptyList<Book>())
     val availableBooks = _availableBooks.asStateFlow()
-    var _availableBooksL = MutableLiveData<List<BookInfoEntity>>()
-    var availableBooksL: LiveData<List<BookInfoEntity>> = _availableBooksL
-    var _bidsAndAsks = MutableLiveData<BidsAndAsksList>()
-    var bidsAndAsks: LiveData<BidsAndAsksList> = _bidsAndAsks
-    var _ticker = MutableLiveData<TickerEntity>()
-    var ticker: LiveData<TickerEntity> = _ticker
-    var _bookSelected = MutableLiveData<BookInfoEntity>()
-    var bookSelected: LiveData<BookInfoEntity> = _bookSelected
+    private val _availableBooksL = MutableLiveData<List<BookInfoEntity>>()
+    val availableBooksL: LiveData<List<BookInfoEntity>> = _availableBooksL
+    private val _bidsAndAsks = MutableLiveData<BidsAndAsksList>()
+    val bidsAndAsks: LiveData<BidsAndAsksList> = _bidsAndAsks
+    private val _ticker = MutableLiveData<TickerEntity>()
+    val ticker: LiveData<TickerEntity> = _ticker
+    private val _bookSelected = MutableLiveData<BookInfoEntity>()
+    val bookSelected: LiveData<BookInfoEntity> = _bookSelected
 
-    fun getAvailableBooks() {
+    init {
+        getAvailableBooks()
+    }
+    private fun getAvailableBooks() {
         viewModelScope.launch(Dispatchers.IO) {
             val books = filterCurrenciesUseCase.invoke()
-            val entities = books.map { entity ->
-                BookEntity(
-                    book = entity.book,
-                    minimumAmount = entity.minimumAmount,
-                    minimumPrice = entity.minimumPrice,
-                    minimumValue = entity.minimumValue,
-                    maximumAmount = entity.maximumAmount,
-                    maximumPrice = entity.maximumPrice,
-                    maximumValue = entity.maximumValue
-                )
-            }
-            repository.insertBooks(entities)
-            val resultDB = repository.fetchAvailableBooksFlow()
-            _availableBooksL.postValue(resultDB)
+            _availableBooksL.postValue(books)
         }
     }
     fun getBidsAndAsks(book:String) {
@@ -57,15 +49,16 @@ class BitsoViewModel @Inject constructor(
             _bidsAndAsks.postValue(books)
         }
     }
-
-    fun getTicker(book: String){
-        viewModelScope.launch(Dispatchers.IO) {
-            val bookInfo = repository.getTicker(book)
-            _ticker.postValue(bookInfo)
-        }
+    fun getTickerRX(book: String){
+        repository.getTickerRX(book)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                _ticker.postValue(it)
+            },{
+            })
     }
     fun saveBookSelected(item : BookInfoEntity){
         _bookSelected.value = item
-        println("el book es ${bookSelected.value}")
     }
 }

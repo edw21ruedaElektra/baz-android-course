@@ -16,7 +16,6 @@ import org.junit.Test
 class QuoteViewModelUnitTest {
     @RelaxedMockK
     private lateinit var currencyRepository: CurrencyRepository
-
     lateinit var filterCurrenciesUseCase: FilterCurrenciesUseCase
 
     @Before
@@ -27,14 +26,9 @@ class QuoteViewModelUnitTest {
 
     @Test
     fun `cuando la api devuelve algo, obtiene valores de la api`() = runBlocking {
-        //Given
         val myList = mockListBooks()
         coEvery { currencyRepository.fetchAvailableBooks() } returns myList
-
-        //When
         val response = filterCurrenciesUseCase()
-
-        //Then
         coVerify(exactly = 1) { currencyRepository.insertBooks(any()) }
         assert(response == myList)
     }
